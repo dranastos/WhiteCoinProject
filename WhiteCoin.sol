@@ -119,8 +119,8 @@ contract WhiteCoin is ERC20  {
     /* Initializes contract with initial supply tokens to the creator of the contract */
     function WhiteCoin() {
 
-        uint256 _initialSupply = 1000000000000 ; 
-        uint8 decimalUnits = 8;
+        uint256 _initialSupply = 10000000000000000000000000000 ; 
+        uint8 decimalUnits = 24; // 
         balanceOf[msg.sender] = _initialSupply; // Give the creator all initial tokens
         totalSupply = _initialSupply; // Update total supply
         initialSupply = _initialSupply;
