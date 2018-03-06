@@ -305,7 +305,7 @@ contract WhiteCoin is ERC20  {
         
         if ( _amount == 0 ) throw; 
         
-        balanceOf[msg.sender] = balanceOf[msg.sender].add( _amount ); // Subtract from the sender
+        balanceOf[msg.sender] = balanceOf[msg.sender].add( _amount ); // add minted tokens to Minters account
         totalSupply = totalSupply.add( _amount ); // Updates totalSupply
         Minted(msg.sender, _amount);
         return true;
