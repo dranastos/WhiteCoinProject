@@ -98,6 +98,7 @@ contract WhiteCoin is ERC20  {
     mapping ( uint => string  ) public mintRequestReference;
     mapping ( uint => uint8 )   public mintRequestStatus;
     mapping ( uint => address ) public mintRequestor;
+    mapping ( uint => address ) public mintAddresstoCredit;
     uint public mintRequestCount;
     
     
@@ -343,12 +344,13 @@ contract WhiteCoin is ERC20  {
     
     
     
-    function mintingRequest ( uint256 _amount , string _ref ) onlyMinter returns (uint256)  {
+    function mintingRequest ( address _addresstocredit , uint256 _amount , string _ref ) onlyMinter returns (uint256)  {
         
         mintRequestCount++;
         mintRequest[ mintRequestCount ] = _amount;
         mintRequestReference[ mintRequestCount ] = _ref;
         mintRequestor[ mintRequestCount ] = msg.sender;
+        mintAddresstoCredit[ mintRequestCount ] = _addresstocredit;
         
     }
     
@@ -382,7 +384,7 @@ contract WhiteCoin is ERC20  {
         
         require ( _mintRequest != 0 && _mintRequest <= mintRequestCount &&  mintRequestStatus [ _mintRequest ] == 0 && _decision != 0 && _decision < 3 );
         if ( _decision == 2 )  { mintRequestStatus [ _mintRequest ] = 2; return true; } // Mint Declined
-        balanceOf[ mintRequestor[_mintRequest] ] = balanceOf[ mintRequestor[_mintRequest] ].add( mintRequest[_mintRequest] ); // add minted tokens to Minters account
+        balanceOf[ mintAddresstoCredit[_mintRequest] ] = balanceOf[ mintAddresstoCredit[_mintRequest] ].add( mintRequest[_mintRequest] ); // add minted tokens to Minters account
         totalSupply = totalSupply.add( mintRequest[ _mintRequest ] ); // Updates totalSupply
         Minted( mintRequestor[_mintRequest] , mintRequest[_mintRequest]);
         mintRequestStatus [ _mintRequest ] = 1;
